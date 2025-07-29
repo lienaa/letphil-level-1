@@ -150,15 +150,16 @@ function addSong(e) {
 // 🧪 Console log to show filtered results
 
 function filterPlaylist() {
-  const filteredMood = filterMoodSelect.value;
+  const filteredMood = filterDropdown.value;
   console.log("Mood: ", filteredMood);
-  if (filteredMood === "All") {
+  if (filteredMood === "all") {
     renderPlaylist(playlist);
     console.log("Results: ", playlist);
   } else {
-    filteredPlaylist = playlist.filter((song) => {
-      song.mood === filteredMood;
-    });
+    filteredPlaylist = playlist.filter((song) => 
+      song.mood === filteredMood
+    );
+    renderPlaylist(filteredPlaylist);
     console.log("Results: ", filteredPlaylist);
   }
 }
@@ -234,7 +235,7 @@ function loadTheme() {
 // 🧪 Console log to confirm all event listeners were attached
 
 songForm.addEventListener("submit", addSong);
-filterDropdown.addEventListener("Change", filterPlaylist);
+filterDropdown.addEventListener("change", filterPlaylist);
 shuffleButton.addEventListener("click", shufflePlaylist);
 darkModeButton.addEventListener("click", toggleDarkMode);
 console.log("Event Listeners Added");
