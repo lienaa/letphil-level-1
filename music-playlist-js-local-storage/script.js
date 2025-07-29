@@ -126,6 +126,21 @@ function renderPlaylist(songsToRender)
 // - Use songForm.reset() to clear the form
 // 🧪 Console log to confirm a new song was added
 
+function addSong(e) {
+  e.preventDefault();
+  const newSong = {
+    title: titleInput.value,
+    artist: titleInput.value,
+    link: titleInput.value,
+    mood: titleInput.value,
+  }
+  playlist.push(newSong);
+  savePlaylist();
+  renderPlaylist(playlist);
+  songForm.reset();
+  console.log("Song Added", newSong);
+}
+
 // 🎯 Step 7: Filter playlist by mood
 // 👉 Define a function called filterPlaylist()
 // Inside the function:
@@ -136,6 +151,20 @@ function renderPlaylist(songsToRender)
 // 🧪 Console log to show which mood was selected for filtering
 // 🧪 Console log to show filtered results
 
+function filterPlaylist() {
+  const filteredMood = filterMoodSelect.value;
+  console.log("Mood: ", filteredMood);
+  if (filteredMood === "All") {
+    renderPlaylist(playlist);
+    console.log("Results: ", playlist);
+  } 
+  else {
+    filteredPlaylist = playlist.filter((song) => 
+      { song.mood === filteredMood});
+    console.log("Results: ", filteredPlaylist);
+  }
+}
+
 // 🔀 Step 8: Shuffle the playlist using Fisher-Yates algorithm
 // 👉 Define a function called shufflePlaylist()
 // Inside the function:
@@ -144,6 +173,17 @@ function renderPlaylist(songsToRender)
 // - Swap playlist[i] and playlist[j] using destructuring
 // - After the loop, save and render the playlist again
 // 🧪 Console log to confirm the playlist was shuffled
+
+function shufflePlaylist()
+{
+  for (let i = playlist.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [playlist[i], playlist[j]] = [playlist[j], playlist[i]];
+  }
+  savePlaylist();
+  renderPlaylist(playlist);
+  console.log("Shuffled");
+}
 
 // 🌙 Step 9: Toggle between Dark Mode and Light Mode
 // 👉 Define a function called toggleDarkMode()
