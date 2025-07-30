@@ -5,9 +5,13 @@
 // The button the user clicks to trigger the API call
 // The div where we’ll show the country info (flag, name, capital, etc.)
 
+
+
 // 🧠 STEP 2: Add an event listener that waits for the button to be clicked
 // - `addEventListener("click", ...)` runs a function every time the button is clicked
 // - We mark the function as `async` so we can use `await` inside it (to pause until the API responds)
+
+
 
 // 🧠 STEP 3: Get the country name that the user typed
 // - `.value` gets the current text inside the input box
@@ -35,3 +39,32 @@
 
 // 🧠 STEP 8: If something goes wrong (e.g., country not found), show an error message
 // - The error might be because the country doesn't exist or the API is down
+
+
+const countryInput = document.getElementById("countryInput");
+const searchBtn = document.getElementById("searchBtn");
+const countryDisplay = document.getElementById("countryDisplay");
+
+searchBtn.addEventListener("click", async () => {
+    const country = countryInput.value.trim();
+    const url = `https://restcountries.com/v3.1/name/${country}`;
+
+    try {
+        const response = await axios.get(url);
+        const data = response.data[0];
+        const countryName = data.name.common;
+        const capital = data.capital[0];
+        const population = data.population.toLocaleString();
+        const flags = data.flags.svg;
+
+        countryDisplay.innerHTML = `<img src="${flags}" alt="${countryName} Flag" style="width:100%;"/>
+                                    <h2>${countryName}</h2>
+                                    <p><strong>Capital: </strong>${capital}</p>
+                                    <p><strong>Population: </strong>${population}</p>`;
+    } 
+    catch (err) {
+        countryDisplay.innerHTML = 
+            `<p style="color: red;">Sorry, the country does not exist. Pls try again.</p>`;
+        console.error("404", err);
+    }
+});
