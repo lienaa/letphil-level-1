@@ -5,7 +5,7 @@
 //   • Value: "https://coinbase.com/api/v2/assets/prices"
 
 const api = axios.create({
-    baseURL: "https://coinbase.com/api/v2/assets/prices",
+  baseURL: "https://coinbase.com/api/v2/assets/prices",
 });
 
 // 🧠 STEP 2: Make an array called "coins"
@@ -24,23 +24,24 @@ const coins = ["bitcoin", "ethereum"];
 //   6. Use symbol for the dataset label and give it a color (e.g., blue).
 
 function createChart(Chart, coinId, labels, data, symbol) {
-    const chartSection = document.getElementById("chartSection");
-    const canvas = document.createElement("canvas");
-    canvas.setAttribute("id", coinId);
-    chartSection.appendChild(canvas);
-    new Chart(canvas, {
-        type: "line",
-        data: {
-            labels: labels,
-            datasets: [{
-                label: symbol,
-                data: data,
-                borderColor: 'blue',
-            },]
+  const chartSection = document.getElementById("chartSection");
+  const canvas = document.createElement("canvas");
+  canvas.setAttribute("id", coinId);
+  chartSection.appendChild(canvas);
+  new Chart(canvas, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: symbol,
+          data: data,
+          borderColor: "blue",
         },
-    });
+      ],
+    },
+  });
 }
-
 
 // 🧠 STEP 4: Write an async function called "makeCharts"
 // - Inside this function:
@@ -54,6 +55,47 @@ function createChart(Chart, coinId, labels, data, symbol) {
 //      • Return an object containing coinId, labels, data, and symbol.
 //   4. After fetching all data, clear the loader (innerHTML = "").
 //   5. Loop over the returned data with forEach() and call createChart() for each coin.
+
+async function makeCharts() {
+  const chartSection = document.getElementById("chartSection");
+  chartSection.innerHTML = `<div class='loader'></div>`;
+
+  // call with promise on bitcoin and etherium
+  // returns an array with [{coinId, time array, price array, symbol}, {coinId, time array, price array, symbol}]
+  const results = await Promise.all(
+    coins.map(async (coin) => {
+      // api.get on the coin
+      let response;
+      try {
+        response = await api.get("/" + coin);
+      } catch (error) {
+        console.log("Response error: ", error);
+      }
+
+      // slice only the data we need
+      const data = response.data.data.prices.hour.prices.slice(0, 24);
+
+      // go through each time data and perform conversions
+      const timestamps = data.map(([timestamp]) =>
+        new Date(timestamp * 1000).toLocaleTimeString()
+      );
+      // go through each price data and make it a number
+      const prices = data.map(([, price]) => Number(price));
+
+      // define symbol
+      const symbol = coin === "bitcoin" ? "BTC" : "ETH";
+      return { coin, timestamps, prices, symbol };
+    })
+  );
+
+  chartSection.innerHTML = "";
+  results.forEach((coin) =>
+    createChart(Chart, coin.coin, coin.timestamps, coin.prices, coin.symbol)
+  );
+}
+
+makeCharts();
+setInterval(makeCharts, 10000);
 
 // 🧠 STEP 5: Call makeCharts() once to display charts immediately.
 // - Use setInterval(makeCharts, 10000) to refresh every 10 seconds (10,000ms).
