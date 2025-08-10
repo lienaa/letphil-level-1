@@ -76,8 +76,6 @@ async function makeCharts() {
       // filter out the response data
       const data = response?.data?.data?.prices?.hour?.prices || [];
 
-      console.log(data[0]);
-
       // go through each time data and perform conversions
       const timestamps = data
         .map(([, timestamp]) => new Date(timestamp * 1000).toLocaleTimeString())
