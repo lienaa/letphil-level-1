@@ -70,17 +70,25 @@ async function makeCharts() {
         response = await api.get("/" + coin);
       } catch (error) {
         console.log("Response error: ", error);
+        return;
       }
 
-      // slice only the data we need
-      const data = response.data.data.prices.hour.prices.slice(0, 24);
+      // filter out the response data
+      const data = response?.data?.data?.prices?.hour?.prices || [];
+
+      console.log(data[0]);
 
       // go through each time data and perform conversions
-      const timestamps = data.map(([timestamp]) =>
-        new Date(timestamp * 1000).toLocaleTimeString()
-      );
+      const timestamps = data
+        .map(([, timestamp]) => new Date(timestamp * 1000).toLocaleTimeString())
+        .reverse();
+
+      console.log("time", timestamps[0]);
+
       // go through each price data and make it a number
-      const prices = data.map(([, price]) => Number(price));
+      const prices = data.map(([price]) => Number(price)).reverse();
+
+      console.log("price", prices[0]);
 
       // define symbol
       const symbol = coin === "bitcoin" ? "BTC" : "ETH";
