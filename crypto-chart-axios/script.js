@@ -83,12 +83,8 @@ async function makeCharts() {
         .map(([, timestamp]) => new Date(timestamp * 1000).toLocaleTimeString())
         .reverse();
 
-      console.log("time", timestamps[0]);
-
       // go through each price data and make it a number
       const prices = data.map(([price]) => Number(price)).reverse();
-
-      console.log("price", prices[0]);
 
       // define symbol
       const symbol = coin === "bitcoin" ? "BTC" : "ETH";
