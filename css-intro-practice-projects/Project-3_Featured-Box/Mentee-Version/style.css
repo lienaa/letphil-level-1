@@ -21,3 +21,33 @@
 // STEP 3.2: Set line-height to 1.5
 // STEP 3.3: Set color to #bdc3c7 using !important
 // STEP 3.4: Use italic font-style */
+
+#profile-box {
+    background-color: #2c3e50 !important;
+    color: #ecf0f1;
+    width: 320px;
+    height: auto;
+    margin: 50px auto;
+    padding: 25px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #3498db;
+    border-radius: 15px;
+    font-family: 'Verdana', sans-serif;
+    text-align: center;
+    box-shadow: rgba(52, 152, 219, 0.5);
+}
+
+#profile-name {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #f1c40f;
+    text-shadow: 1px 1px 2px black;
+}
+
+#profile-bio {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #bdc3c7;
+    font-style: italic;
+}
