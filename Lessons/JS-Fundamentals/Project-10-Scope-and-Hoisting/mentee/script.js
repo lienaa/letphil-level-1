@@ -21,6 +21,10 @@
 // - the button (id="guessBtn")
 // - the message paragraph (id="message")
 
+const guessInput = document.getElementById("guessInput");
+const guessBtn = document.getElementById("guessBtn");
+const message = document.getElementById("message");
+
 // ---------- STEP 3: Add a click event listener to the button ----------
 // Inside the function:
 // - Get the user's guess using input.value
@@ -28,6 +32,17 @@
 // - Compare it to the secret number
 // - If it matches, update message.innerText to say "You win!"
 // - If not, say "Try again."
+
+guessBtn.addEventListener("click", function () {
+  const userGuess = Number(guessInput.value);
+  const secret = Math.floor(Math.random() * 10) + 1;
+  console.log(secret);
+  if (userGuess === secret) {
+    message.innerText = "You win!";
+  } else {
+    message.innerText = "Try again.<<";
+  }
+});
 
 // ---------- STEP 4: Try moving the secret number INSIDE the click event function ----------
 // What changes? Does it reset every time?
