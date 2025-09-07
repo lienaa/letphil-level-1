@@ -15,6 +15,9 @@
 // Store it in a variable called secret using const
 // Log the secret number to the console for testing
 
+const secret = Math.floor(Math.random() * 10) + 1;
+console.log(secret);
+
 // ---------- STEP 2: Select DOM elements ----------
 // Use getElementById to grab:
 // - the input field (id="guessInput")
@@ -35,8 +38,6 @@ const message = document.getElementById("message");
 
 guessBtn.addEventListener("click", function () {
   const userGuess = Number(guessInput.value);
-  const secret = Math.floor(Math.random() * 10) + 1;
-  console.log(secret);
   if (userGuess === secret) {
     message.innerText = "You win!";
   } else {

@@ -1,25 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simple Landing Page (Mentee)</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Landing Page (Mentee)</title>
 
-  <link rel="stylesheet" href="style.css" />
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <main class="container">
-    <h1>My Landing Page</h1>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Games Wishlist</h1>
 
-    <p id="greeting"><!-- JS will put greeting text here --></p>
+      <p id="greeting"><!-- JS will put greeting text here --></p>
+      <button id="nameBtn">Change Name</button>
 
-    <section>
-      <h2>Features</h2>
-      <ul id="featuresList"></ul>
-    </section>
-
-    <button id="themeBtn">Change Theme</button>
-  </main>
-</body>
+      <section>
+        <form>
+          <div class="formInput">
+            <label for="game">Game:</label>
+            <input id="game" type="text" required />
+          </div>
+          <div class="formInput">
+            <label for="price">Price:</label>
+            <input id="price" type="number" step="0.01" required />
+          </div>
+          <button id="addGame" type="submit">Add Game</button>
+        </form>
+        <div>
+          <h2>Games</h2>
+          <ul id="gamesList"></ul>
+        </div>
+      </section>
+      <div>
+        <button id="removeGame">Remove Last Game</button>
+      </div>
+      <button id="themeBtn">Change Theme</button>
+    </main>
+  </body>
 </html>

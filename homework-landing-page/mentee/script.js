@@ -2,6 +2,9 @@
 // In this exercise you’ll add JavaScript to your landing page.
 // You will practice: VARIABLES, FUNCTIONS, CONDITIONALS, LOOPS, and EVENTS.
 
+// As Practice Add: Functions, Arrays, Objects, Data Types and Variables
+// New functionality: Toggle theme, Change name, Add wishlisted game
+
 // ---------------------------------------------------------------------
 // STEP 1: VARIABLES
 // - Create a variable to store your NAME as a string.
@@ -9,7 +12,7 @@
 // - Create another variable to store the number of visits (start at 0).
 //   Example: let visits = 0;
 // - Use console.log() to print both variables to check they work.
-const myName = "Alex";
+let myName = "Alex";
 let visitCount = 0;
 
 console.log(`Name: ${myName}, Visits: ${visitCount}`);
@@ -21,14 +24,6 @@ console.log(`Name: ${myName}, Visits: ${visitCount}`);
 // - Change its text to say: "Welcome " + your name variable.
 // - Call (run) the function so the greeting shows when the page loads.
 
-const greeting = document.getElementById("greeting");
-
-function showGreeting() {
-    greeting.innerText = "Welcome " + myName;
-}
-
-showGreeting();
-
 // ---------------------------------------------------------------------
 // STEP 3: CONDITIONALS (IF / ELSE)
 // - Use the Date object: new Date().getHours() to get the current hour.
@@ -37,32 +32,72 @@ showGreeting();
 //   * Else if hour is less than 18 → show "Good afternoon <name>"
 //   * Else → show "Good evening <name>"
 
-const hour = new Date().getHours();
-if (hour < 12) {
-    greeting.innterText = "Good morning" + myName;
-} else if(hour < 18) {
-    greeting.innerText = "Good afternoon " + myName;
-} else {
-    greeting.innerText = "Good evening " + myName;
+const greeting = document.getElementById("greeting");
+
+function showGreeting() {
+  const hour = new Date().getHours();
+  let greetingPrefix = "";
+  if (hour < 12) {
+    greetingPrefix = "Good Morning";
+  } else if (hour < 18) {
+    greetingPrefix = "Good Afternoon";
+  } else {
+    greetingPrefix = "Good Evening";
+  }
+  greeting.innerText = greetingPrefix + " " + myName;
 }
+
+showGreeting();
 
 // ---------------------------------------------------------------------
 // STEP 4: LOOPS
-// - Create an array called features with 3 strings (ex: ["Fast", "Simple", "Fun"]).
-// - Use a for loop to go through the array.
-// - For each item, console.log it to test your loop works.
-// - (Optional) Instead of only logging, you can also create <li> items and add them
-//   into the <ul id="featuresList"> in your HTML to show them on the page.
-const features = ["Fast", "Simple", "Fun"];
-const featuresList = document.getElementById("featuresList");
+// - Add event listener to add games button
+// - Create new game object with name and price
+// - Add game to the list
+// - Display the list on site
+const games = [];
+const gamesList = document.getElementById("gamesList");
+const addGame = document.getElementById("addGame");
 
+addGame.addEventListener("click", (event) => {
+  event.preventDefault();
+  const game = document.getElementById("game").value.trim();
+  const price = document.getElementById("price").value;
+  document.getElementById("game").value = "";
+  document.getElementById("price").value = "";
 
-for (let i = 0; i < features.length; i++) {
-    console.log(features[i]);
+  const gameCard = {
+    name: game,
+    price: price,
+  };
+  games.push(gameCard);
+  console.log("Added Game: ", gameCard);
+  displayGames();
+});
+
+function displayGames() {
+  // Reset gamesList HTML
+  gamesList.innerHTML = "";
+  for (let i = 0; i < games.length; i++) {
+    console.log("Listing: ", games[i]);
     const listItem = document.createElement("li");
-    listItem.innerText = features[i]
-    featuresList.appendChild(listItem);
+    listItem.innerText = `${games[i].name} - $${games[i].price}`;
+    gamesList.appendChild(listItem);
+  }
 }
+
+// Remove last game button
+const removeGame = document.getElementById("removeGame");
+removeGame.addEventListener("click", () => {
+  if (games.length > 0) {
+    const removedGame = games.pop();
+    displayGames();
+    console.log("Removed", removedGame.name);
+    console.log(games);
+  } else {
+    console.log("Game List Empty");
+  }
+});
 
 // ---------------------------------------------------------------------
 // STEP 5: EVENTS (BUTTON CLICK)
@@ -74,8 +109,20 @@ for (let i = 0; i < features.length; i++) {
 const themeBtn = document.getElementById("themeBtn");
 
 themeBtn.addEventListener("click", () => {
-    const body = document.querySelector("body");
-    body.style.backgroundColor = "lightblue";
+  const body = document.querySelector("body");
+  body.classList.toggle("lightBlueBackground");
+});
+
+// Add a name change button
+const nameBtn = document.getElementById("nameBtn");
+
+// Prompt for a name on click
+nameBtn.addEventListener("click", () => {
+  const newName = prompt("Enter New Name");
+  if (newName) {
+    myName = newName.trim();
+    showGreeting();
+  }
 });
 
 // ---------------------------------------------------------------------
